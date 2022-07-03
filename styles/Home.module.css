@@ -1,0 +1,97 @@
+.container {
+    padding: 0 2rem;
+}
+
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    margin: 0;
+    line-height: 1.15;
+    font-size: 4rem;
+    margin: 12px;
+}
+
+.table {
+    width: 50%;
+    border-collapse: collapse;
+    border: 1px solid;
+}
+
+.table th {
+    border: 1px solid;
+    padding: 12px;
+}
+
+.table td {
+    text-align: center;
+    border: 1px solid;
+    padding: 12px;
+}
+
+.table thead tr {
+    background-color: rgb(131, 40, 40);
+    color: white;
+}
+
+.item_action {
+    visibility: hidden;
+}
+
+.table tbody tr:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.selected_item {
+    background-color: rgb(236, 173, 173);
+}
+
+.table tbody tr:hover .item_action {
+    visibility: visible;
+}
+
+.text_strikethrough {
+    text-decoration: line-through;
+}
+
+.input_group {
+    margin: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input_text {
+    border: 1px solid;
+    height: 36px;
+    border-radius: 6px;
+    padding: 0 12px;
+    outline: none;
+}
+
+.input_message {
+    margin-top: 6px;
+    color: red;
+}
+
+.filter {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn {
+    margin: 12px;
+    padding: 6px 12px;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
