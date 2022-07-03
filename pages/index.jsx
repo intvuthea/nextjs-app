@@ -104,7 +104,7 @@ export default function Home() {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>
-                    Welcome to Todo App
+                    Welcome to Todo App update PR
                 </h1>
                 <div className={styles.filter}>  
                     <form action="" onSubmit={submitSearch}>              
