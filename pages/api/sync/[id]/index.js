@@ -1,5 +1,7 @@
 import { DELETE, PUT } from "@constants/http_method"
 import { TODO_DB } from "services/firebase/firebaseAdmin";
+import { getAllTodo } from "..";
+
 
 export default function handler(req, res) {
     const METHOD = req.method
@@ -20,6 +22,12 @@ async function update(req, res) {
 
         var {todo} = req.body
         if (todo) {
+            var allTodos = await getAllTodo();
+            var isExist = allTodos.find((item) => (item.todo === todo) && (item.id != req.query.id))
+            if (isExist) {
+                return res.status(422).json({ message: 'The Todo already exist'})
+            }
+
             TODO_DB.child(req.query.id).update({todo})
             return res.status(200).json({ success: true })
         }

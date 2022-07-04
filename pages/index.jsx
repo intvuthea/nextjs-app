@@ -84,7 +84,7 @@ export default function Home() {
 
             setErrorMsg(null)
         } catch (error) {
-            if (error.response && error.response.status == 422) {
+            if (error.response && error.response.status === 422) {
                 setErrorMsg('The data already exist')
             }
         }
@@ -166,7 +166,7 @@ export default function Home() {
                                     </td>
                                 </tr>
                             ) : ( todoList.map( (item, index) => 
-                                <tr key={ index } className={selectTodo.id == item.id ? styles.selected_item : ''}>
+                                <tr key={ index } className={selectTodo.id === item.id ? styles.selected_item : ''}>
                                     <td>{ item.id }</td>
                                     <td className={ item.isCompleted ? styles.text_strikethrough : ''}>{ item.todo }</td>
                                     <td>{ item.createdAt }</td>
@@ -174,7 +174,7 @@ export default function Home() {
                                         <div className={styles.item_action}>
                                             <button className={styles.btn} onClick={() => toggleComplete(item)}>Toggle Complete</button>
                                             <button className={styles.btn} onClick={() => onEditClick(item)}>
-                                                { selectTodo.id == item.id ? 'Cancel Edit' : 'Edit' }
+                                                { selectTodo.id === item.id ? 'Cancel Edit' : 'Edit' }
                                             </button>
                                             <button className={styles.btn} onClick={() => onDeleteClick(item)}>Delete</button>
                                         </div>

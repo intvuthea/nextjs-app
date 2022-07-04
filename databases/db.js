@@ -11,7 +11,7 @@ export const SEQUELIZE = new Sequelize({
 
 
 export const DB = new Database(DB_NAME, OPEN_READWRITE, (err) => {
-    if (err && err.code == "SQLITE_CANTOPEN") {
+    if (err && err.code === "SQLITE_CANTOPEN") {
         console.log('SQLITE_CANTOPEN')
     } else if (err) {
         console.log("Getting error " + err);

@@ -48,7 +48,7 @@ async function create(req, res) {
 
         return res.status(422).json({ message: 'The Field name is require'})
     } catch (error) {
-        if (error.original && error.original.errno == 19) {
+        if (error.original && error.original.errno === 19) {
             return res.status(422).json({ message:  error.name})
         }
         return res.status(500).json({ error })

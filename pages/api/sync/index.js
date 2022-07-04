@@ -1,4 +1,5 @@
 import { GET, POST } from "@constants/http_method";
+import { async } from "@firebase/util";
 import { TODO_DB } from "services/firebase/firebaseAdmin";
 
 export default function handler(req, res) {
@@ -17,21 +18,11 @@ export default function handler(req, res) {
 
 async function list(req, res) {
     try {
-        let snapshot = await TODO_DB.get()
-
-        var results = []
-        snapshot.forEach((data) => {
-            results.push({
-                id: data.key,
-                ...data.val()
-            })
-        });
-
+        var results = await getAllTodo()
         const search = req.query.todo
         if (search) {
             results = results.filter( (item) => {
-                let is = item.todo.includes(search)
-                return is
+                return item.todo.includes(search)
             })
         }
 
@@ -46,6 +37,12 @@ async function create(req, res) {
         var {todo, isCompleted, createdAt} = req.body
         if (todo) {
 
+            var allTodos = await getAllTodo();
+            var isExist = allTodos.find((item) => item.todo === todo)
+            if (isExist) {
+                return res.status(422).json({ message: 'The Todo already exist'})
+            }
+
             TODO_DB.push({
                 todo,
                 isCompleted: isCompleted ?? false,
@@ -57,9 +54,20 @@ async function create(req, res) {
 
         return res.status(422).json({ message: 'The Field name is require'})
     } catch (error) {
-        if (error.original && error.original.errno == 19) {
-            return res.status(422).json({ message:  error.name})
-        }
         return res.status(500).json({ error })
     }
+}
+
+export async function getAllTodo() {
+    let snapshot = await TODO_DB.get()
+
+    var results = []
+    snapshot.forEach((data) => {
+        results.push({
+            id: data.key,
+            ...data.val()
+        })
+    });
+
+    return results
 }

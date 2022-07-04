@@ -19,7 +19,7 @@ async function updateStatus(req, res) {
 
         return res.status(200).json({ success: true })
     } catch (error) {
-        if (error.original && error.original.errno == 19) {
+        if (error.original && error.original.errno === 19) {
             return res.status(422).json({ message:  error.name})
         }
         return res.status(500).json({ error })
