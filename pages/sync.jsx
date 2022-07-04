@@ -37,7 +37,7 @@ export default function Home() {
     async function fetchTodoList(setLoading = false) {
         setIsFetchTodoList(setLoading)
         try {
-            let response = await Axios.get('todo', {params: {todo: filterTodo}})        
+            let response = await Axios.get('sync', {params: {todo: filterTodo}})        
             setTodoList(response.data.data)
         } finally {
             setIsFetchTodoList(false)
@@ -57,7 +57,7 @@ export default function Home() {
     }
 
     async function onDeleteClick(item) {
-        await Axios.delete(`todo/${item.id}`)    
+        await Axios.delete(`sync/${item.id}`)    
         if (item.id === selectTodo.id) {
             setSelectTodo({
                 id: null,
@@ -68,7 +68,7 @@ export default function Home() {
     }
 
     async function toggleComplete(item) {
-        await Axios.put(`todo/${item.id}/mark-complete`, {is_complete: !item.isCompleted })
+        await Axios.put(`sync/${item.id}/mark-complete`, {is_complete: !item.isCompleted })
         fetchTodoList() 
     }
 
@@ -90,11 +90,11 @@ export default function Home() {
         evt.preventDefault();
         try {
             if (selectTodo.id) {
-                await Axios.put(`todo/${selectTodo.id}`, {todo: selectTodo.todo})
+                await Axios.put(`sync/${selectTodo.id}`, {todo: selectTodo.todo})
                 setSelectTodo({id: null, todo: ''})
             } else {
 
-                await Axios.post('todo', {
+                await Axios.post('sync', {
                     todo: filterTodo,
                     isCompleted: false,
                     createdAt: (new Date()).toISOString()
@@ -114,6 +114,7 @@ export default function Home() {
 
     return (
         <div className={styles.container}>
+            
             <Head>
                 <title>Todo App</title>
                 <meta name="description" content="Todo app" />
@@ -121,6 +122,15 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <a href="/">
+                        <h3>Home</h3>
+                    </a>
+                    <h3>|</h3>
+                    <a href="/sync">
+                        <h3>Sync</h3>
+                    </a>
+                </div>
                 <h1 className={styles.title}>
                     Welcome to Todo App Synchronize
                 </h1>

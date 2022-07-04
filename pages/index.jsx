@@ -103,6 +103,15 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <a href="/">
+                        <h3>Home</h3>
+                    </a>
+                    <h3>|</h3>
+                    <a href="/sync">
+                        <h3>Sync</h3>
+                    </a>
+                </div>
                 <h1 className={styles.title}>
                     Welcome to Todo App
                 </h1>
