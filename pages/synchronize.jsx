@@ -2,15 +2,37 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react';
 import Axios from 'services/axios';
 import styles from '../styles/Home.module.css'
+import { firebaseClientDB } from 'services/firebase/firebaseClient';
+import { ref, onValue} from "firebase/database";
 
 export default function Home() {
     const [selectTodo, setSelectTodo] = useState({id: null, todo: ''})
     const [errorMsg, setErrorMsg] = useState(null)
 
-    const [filterTodo , setFilterTodo] = useState('')
+    const [filterTodo, setFilterTodo] = useState('')
     const [todoList, setTodoList] = useState([])
 
     const [isFetchTodoList, setIsFetchTodoList] = useState(false)
+
+    useEffect( () => {
+        fetchTodoList(true)        
+    }, [filterTodo])
+
+    useEffect(() => {
+        const refTodo = ref(firebaseClientDB, 'todos')
+
+        onValue(refTodo, (snapshot) => {
+            let results = []
+            snapshot.forEach((data) => {
+                results.push({
+                    id: data.key,
+                    ...data.val()
+                })
+            });
+
+            setTodoList(results)
+        })
+    }, [])
 
     async function fetchTodoList(setLoading = false) {
         setIsFetchTodoList(setLoading)
@@ -79,8 +101,8 @@ export default function Home() {
                 })
             }
             
-            if (filterTodo) setFilterTodo('')
-            else fetchTodoList()
+            // if (filterTodo) setFilterTodo('')
+            // else fetchTodoList()
 
             setErrorMsg(null)
         } catch (error) {
@@ -89,10 +111,6 @@ export default function Home() {
             }
         }
     }
-
-    useEffect(() => {
-        fetchTodoList(true)
-    }, [filterTodo])
 
     return (
         <div className={styles.container}>
@@ -104,7 +122,7 @@ export default function Home() {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>
-                    Welcome to Todo App
+                    Welcome to Todo App Synchronize
                 </h1>
                 <div className={styles.filter}>  
                     <form action="" onSubmit={submitSearch}>              
